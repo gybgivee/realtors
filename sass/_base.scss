@@ -15,6 +15,13 @@ $font-primary: 'Nunito', sans-serif;
 $font-display: 'Josefin Sans', sans-serif;
 
 $box-shadow :0 1rem 2rem rgba(64, 61, 61, 0.6);
+
+// RESPONSIVE BREAKPOINTS
+$bp-largest: 75em;   // 1200px
+$bp-large: 62.5em;   // 1000px
+$bp-medium: 50em;    // 800px;
+$bp-small: 37.5em;    // 600px;
+
 *,
 *::before,
 *::after{
@@ -26,6 +33,10 @@ html{
     box-sizing: border-box;
 
     font-size: 62.5%;//10px/16px = 62.5% -> 1rem = 10px
+    
+    @media only screen and (max-width: $bp-largest) {
+        font-size: 50%;
+    }
 }
 body{
     font-family: $font-primary;
@@ -36,20 +47,29 @@ body{
     font-size: 2rem;
 }
 .container{
+    //by setting header 80vh is make grid in header that has 1 fr change according to viewport height
+    //base layout should be specific grid(grid with name) : explicit grid
     display: grid;
     grid-template-rows: 
     80vh
     min-content
     40vw
     repeat(3,min-content);
+    
     grid-template-columns:
     [sidebar-start] 8rem 
     [sidebar-end full-start]minmax(6rem,1fr)
     [center-start]repeat(8,[col-start] minmax(min-content,14rem)[col-end]) 
     [center-end]minmax(6rem,1fr)[full-end];
 
-    & > *{
-        padding: 4rem;
-        font-size: 3rem;
+    @media only screen and (max-width: $bp-large) {
+        grid-template-rows: 6rem 80vh min-content 40vw repeat(3, min-content);
+        grid-template-columns: [full-start] minmax(6rem, 1fr) [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] minmax(6rem, 1fr) [full-end];
+    }
+
+    @media only screen and (max-width: $bp-medium) {
+        //if the grid area not specify,the auto placement will give them the min-content
+        //sidebar ontop 6rem and tthe rest
+        grid-template-rows: 6rem calc(100vh - 6rem);
     }
 }
